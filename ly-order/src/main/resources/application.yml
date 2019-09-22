@@ -1,0 +1,30 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: order-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql:///leyou?characterEncoding=UTF-8
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+mybatis-plus:
+  configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/xml/**Mapper.xml
+  type-aliases-package: com.leyou.order.mapper
+ly:
+  jwt:
+    user:
+      cookieName: LY_TOKEN # cookie名称
+      cookieDomain: leyou.com # cookie的域
+  worker:
+      workerId: 1
+      dataCenterId: 1

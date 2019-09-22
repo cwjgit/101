@@ -1,0 +1,50 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: leyou-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+    registry-fetch-interval-seconds: 5
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000 # 熔断超时时长：6000ms
+ribbon:
+  ConnectTimeout: 500 # ribbon链接超时时长
+  ReadTimeout: 2000 # ribbon读取超时时长
+  MaxAutoRetries: 0  # 当前服务重试次数
+  MaxAutoRetriesNextServer: 1 # 切换服务重试次数
+  OkToRetryOnAllOperations: false # 是否对所有的请求方式都重试，只对get请求重试
+zuul:
+  prefix: /api
+  routes:
+      item-service: /item/**
+      upload-service: /upload/**
+      search-service: /search/**
+      user-service: /user/**
+      auth-service: /auth/**
+      cart-service: /cart/**
+      order-service:
+       path: /order/**
+       serviceId: order-service
+       strip-prefix: false
+  sensitive-headers:  #覆盖敏感头信息，防止zuul的头信息重组丢失cookie
+ly:
+  jwt:
+    pubKeyPath: E:/ssh/id_rsa.pub # 公钥地址
+    user:
+      cookieName: LY_TOKEN # cookie名称
+  filter:
+      allowPaths:
+        - /api/auth/login
+        - /api/search
+        - /api/user/register
+        - /api/user/check
+        - /api/user/code
+        - /api/item
